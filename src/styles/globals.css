@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .stats {
+        @apply divide-y border;
+    }
+
+    .table-title {
+        @apply font-bold text-lg;
+    }
+
+    .stat {
+        @apply flex items-center divide-x;}
+
+    .exp-points {
+        @apply flex items-center justify-between;
+    }
+}
