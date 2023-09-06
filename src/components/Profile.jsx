@@ -1,7 +1,9 @@
 'use client'
 import Image from "next/image"
 import { BaseStats, Skills, Expierence, Stats } from "@components/profile/FIrstRow"
-import { useState } from "react"
+import { Wounds, Recources, MutationPoints, RotPoints, Inventory, Textboxes } from "@components/profile/SecondRow"
+import { useState, useContext } from "react"
+import { ProfileContext } from "@app/profile-gallery/profile/page"
 
 
 export function Profile() {
@@ -27,6 +29,7 @@ export function Profile() {
                 </div>
                 <div>
                     <Photo></Photo>
+                    <Talents></Talents>
                 </div>
             </div>
         </div>
@@ -46,111 +49,17 @@ export function Photo() {
     )
 }
 
-export function Wounds() {
-    return (
-        <div>
-            <div className="table-title">
-                <h2>Пошкодження</h2>
-            </div>
-            <div>
-                <Stats></Stats>
-            </div>
-            <div className="border">
-                <p>Травми з тривалим ефектом: </p>
-                <textarea type="text" className="w-full"></textarea>
-            </div>
-        </div>
-    )
-}
-
-export function Recources() {
-    const recources = ["Їжа", "Вода", "Патрони"]
-
-    return (
-        <div>
-            <div className="table-title">
-                <h2>Ресурси</h2>
-            </div>
-            <div className="stats">
-                {recources.map((recource) => {
-                    let recource_input = <input type="number" className="w-full"></input>
-                    return <div className="stat" key={recource}>
-                        <div className="shrink-0 w-[270px] p-1">
-                            {recource}
-                        </div>
-                        <div>
-                            {recource_input}
-                        </div>
-                    </div>
-                })}
-            </div>
-        </div>
-    )
-}
-
-export function MutationPoints() {
-    let points = [];
-    for (let i = 0; i < 10; i++) {
-        points.push(<button className="point">{i}</button>)
-    }
-    return (
-        <div>
-            <div className="table-title">
-                <h2>Мутаційні очки</h2>
-            </div>
-            <div className="exp-points border">
-                {points}
-            </div>
-        </div>
-    )
-}
-
-export function RotPoints() {
-    let points = [];
-    for (let i = 0; i < 10; i++) {
-        points.push(<button className="point">{i}</button>)
-    }
-    return (
-        <div>
-            <div className="table-title">
-                <h2>Очки гнилі</h2>
-            </div>
-            <div className="exp-points border">
-                {points}
-            </div>
-        </div>
-    )
-}
-
-
-export function Inventory() {
-    const [rows, setRows] = useState([""])
-
-    console.log(rows.map)
-
-    function RowsAdder() {
-        setRows([...rows, ""])
-    }
-
-    const setInput = (i, value) => {
-        let newRows = [...rows];
-        newRows[i] = value;
-        setRows(newRows);
-    }
+export function Talents() {
+    const [profile, { addTalent, removeTalent, updateTalent }] = useContext(ProfileContext)
 
     return (
         <div>
             <div className="table-title flex">
-                <h2>Інвентар</h2>
-                <button onClick={RowsAdder}>+</button>
+                <h2>Гідності</h2>
+                <button onClick={addTalent}>+</button>
+                <button onClick={removeTalent}>-</button>
             </div>
-            <div className="border">
-                {rows.map((row, i) => {
-                    return <input type="text" key={i} value={row}
-                        onChange={(e) => setInput(i, e.target.value)} />
-                })}
-                {/* <textarea type="text" className="w-full"></textarea> */}
-            </div>
+            <Textboxes rows={profile.talents} updateRow={updateTalent}></Textboxes>
         </div>
     )
 }

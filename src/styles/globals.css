@@ -17,4 +17,8 @@
     .exp-points {
         @apply flex items-center justify-between;
     }
+
+    .textboxes {
+        @apply w-full text-center;
+    }
 }
