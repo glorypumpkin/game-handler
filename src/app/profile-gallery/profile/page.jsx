@@ -10,10 +10,28 @@ export default function Page() {
     const [profile, setProfile] = useState({
         name: "Hello",
         items: ["", ""],
-        talents: ["", "", "", ""]
+        talents: ["", "", "", ""],
+        stats: {
+            "Статура": 1,
+            "Спритність": 1,
+            "Кмітливість": 3,
+            "Емпатія": 1
+        },
+        wounds: {
+            "Статура": 0,
+            "Спритність": 0,
+            "Кмітливість": 1,
+            "Емпатія": 0
+        }
     })
 
     const functions = {
+        setProperty(property, value) {
+            setProfile({
+                ...profile,
+                [property]: value
+            })
+        },
         setName() {
             setProfile({
                 ...profile,
@@ -58,6 +76,22 @@ export default function Page() {
             setProfile({
                 ...profile,
                 talents: newTalents
+            })
+        },
+        updateStat(key, value) {
+            let newStats = { ...profile.stats };
+            newStats[key] = value;
+            setProfile({
+                ...profile,
+                stats: newStats
+            })
+        },
+        updateWounds(key, value) {
+            let newWounds = { ...profile.wounds };
+            newWounds[key] = value;
+            setProfile({
+                ...profile,
+                wounds: newWounds
             })
         }
     }

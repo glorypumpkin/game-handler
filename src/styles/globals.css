@@ -21,4 +21,8 @@
     .textboxes {
         @apply w-full text-center;
     }
+
+    .point-active {
+        @apply bg-red-500 rounded-full;
+    }
 }

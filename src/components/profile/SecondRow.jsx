@@ -16,13 +16,29 @@ export function Textboxes({ rows, updateRow }) {
 }
 
 export function Wounds() {
+    const [profile, {updateWounds}] = useContext(ProfileContext);
+
+    const wounds = profile.wounds;
+    const woundsKeys = ["Статура", "Спритність", "Кмітливість", "Емпатія"];
+    const highlights = [wounds["Статура"], wounds["Спритність"], wounds["Кмітливість"], wounds["Емпатія"]];
+
+    function handleClick(key, value) {
+        // "value" was clicked. If it already is the value of the stat, decrement it. Otherwise, set it to value.
+        const currentValue = wounds[key];
+        let newValue = value;
+        if(currentValue === value) {
+            newValue = value - 1;
+        }
+        updateWounds(key, newValue);
+    }
+
     return (
         <div>
             <div className="table-title">
                 <h2>Пошкодження</h2>
             </div>
             <div>
-                <Stats></Stats>
+                <Stats skills={wounds} highlights={highlights} handleClick={handleClick}></Stats>
             </div>
             <div className="border">
                 <p>Травми з тривалим ефектом: </p>

@@ -1,15 +1,28 @@
+import { ProfileContext } from "@app/profile-gallery/profile/page"
+import { useContext, useState } from "react"
 
-export function Stats() {
-    const stats = ["Статура", "Спритність", "Кмітливість", "Емпатія"]
+// skills - the stats to display (one stat, one row)
+// handleCLick - function to call when a point is clicked. Arguments: key: string, value: number
+// highlights: number[] - numbers to highlight in each row
+export function Stats( { skills, handleClick, highlights = [] }) {
+    const stats = ["Статура", "Спритність", "Кмітливість", "Емпатія"];
+
     return (<div className="stats">
-        {stats.map((stat) => {
+        {stats.map((statName, rowI) => {
+            const statNumber = skills[statName];
+            const highlightNum = highlights[rowI] || -1;
             let points = [];
-            for (let i = 0; i < 5; i++) {
-                points.push(<button key={i} className="point">{i}</button>)
+            for (let i = 1; i < 6; i++) {
+                const highlight = i <= highlightNum;
+                points.push(
+                <button key={i} 
+                onClick={() => handleClick(statName, i)}
+                className={"w-6 h-6 " + (highlight ? "point-active" : "")}>{i}</button>
+                )
             }
-            return <div className="stat" key={stat}>
+            return <div className="stat" key={statName}>
                 <div className="shrink-0 w-32 p-1">
-                    {stat}
+                    {statName}
                 </div>
                 <div className="flex-grow px-1 flex justify-between">
                     {points}
@@ -19,15 +32,35 @@ export function Stats() {
         )}
     </div>)
 }
-
+// [stat: value]
 export function BaseStats() {
+
+    const [profile, {updateStat}] = useContext(ProfileContext);
+
+    function onPointClick() {
+        //change the color of the point
+
+    }
+
+    const skills = profile.stats;
+    const wounds = profile.wounds;
+    const skillKeys = ["Статура", "Спритність", "Кмітливість", "Емпатія"];
+    const highlights = [];
+    for(let key of skillKeys) {
+        const h = skills[key] - wounds[key];
+        highlights.push(h);
+    }
+
+    function handleClick(key, value) {
+        updateStat(key, value);
+    }
 
     return (
         <div>
             <div className="table-title">
                 <h2>Базові стати</h2>
             </div>
-            <Stats></Stats>
+            <Stats skills={profile.stats} highlights={highlights} handleClick={handleClick}></Stats>
         </div>
     )
 }
