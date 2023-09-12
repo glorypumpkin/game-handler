@@ -7,7 +7,7 @@ export function Textboxes({ rows, updateRow }) {
 
     return (<div className="border">
         {rows.map((row, i) => {
-            return <input type="text" className="textboxes" key={i} value={row}
+            return <input type="text" className="textboxes border" key={i} value={row}
                 onChange={(e) => updateRow(i, e.target.value)} />
         })}
         {/* <textarea type="text" className="w-full"></textarea> */}
@@ -49,7 +49,12 @@ export function Wounds() {
 }
 
 export function Recources() {
-    const recources = ["Їжа", "Вода", "Патрони"]
+    const [profile, {updateRecources}] = useContext(ProfileContext);
+
+    const recources = profile.recources;
+    const recourcesKey = ["Їжа", "Вода", "Патрони"]
+
+    
 
     return (
         <div>
@@ -57,8 +62,8 @@ export function Recources() {
                 <h2>Ресурси</h2>
             </div>
             <div className="stats">
-                {recources.map((recource) => {
-                    let recource_input = <input type="number" className="w-full" min="0"></input>
+                {recourcesKey.map((recource) => {
+                    let recource_input = <input type="number" className="w-full" min="0" defaultValue={recources[recource]} onChange={(e) => updateRecources(recource, e.target.value)}></input>
                     return <div className="stat" key={recource}>
                         <div className="shrink-0 w-[270px] p-1">
                             {recource}
@@ -74,26 +79,59 @@ export function Recources() {
 }
 
 export function MutationPoints() {
+    const [profile, {updateMutations, handleClick}] = useContext(ProfileContext);
+
+    const mutations = profile.mutations;
+    // function handleCLick(value) {
+    //     const currentValue = mutations;
+    //     let newValue = value;
+    //     if(currentValue === value) {
+    //         newValue = value - 1;
+    //     }
+    //     updateMutations(newValue);
+    // }
     let points = [];
     for (let i = 0; i < 10; i++) {
-        points.push(<button className="point">{i}</button>)
+        points.push(
+        <button key={1}
+        className={(i <= mutations ? " point-active" : " point-inactive")}
+        onClick={() => handleClick(mutations, i, updateMutations)}
+        ></button>)
     }
     return (
         <div>
             <div className="table-title">
                 <h2>Пункти мутації</h2>
             </div>
-            <div className="exp-points border">
+            <div className="points border">
                 {points}
             </div>
         </div>
     )
 }
 
+
+
 export function RotPoints() {
+    const [profile, {updateRot, handleClick}] = useContext(ProfileContext);
+
+    const rot = profile.rot;
     let points = [];
+
+    // function handleClick(value) {
+    //     const currentValue = rot;
+    //     let newValue = value;
+    //     if(currentValue === value) {
+    //         newValue = value - 1;
+    //     }
+    //     updateRot(newValue);
+    // }
     for (let i = 0; i < 10; i++) {
-        points.push(<button className="point">{i}</button>)
+        points.push(
+        <button key={i}
+        onClick={() => handleClick(rot, i, updateRot)}
+        className={(i <= rot ? " point-active" : " point-inactive")}
+        ></button>)
     }
 
     return (
@@ -102,7 +140,7 @@ export function RotPoints() {
                 <h2>Очки гнилі</h2>
                 <button>Сховати</button>
             </div>
-            <div className="exp-points border">
+            <div className="points border">
                 {points}
             </div>
         </div>

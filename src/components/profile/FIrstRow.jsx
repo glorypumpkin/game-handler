@@ -17,7 +17,7 @@ export function Stats( { skills, handleClick, highlights = [] }) {
                 points.push(
                 <button key={i} 
                 onClick={() => handleClick(statName, i)}
-                className={"w-6 h-6 " + (highlight ? "point-active" : "")}>{i}</button>
+                className={(i <= highlight ? " point-active" : " point-inactive")}>{i}</button>
                 )
             }
             return <div className="stat" key={statName}>
@@ -36,12 +36,7 @@ export function Stats( { skills, handleClick, highlights = [] }) {
 export function BaseStats() {
 
     const [profile, {updateStat}] = useContext(ProfileContext);
-
-    function onPointClick() {
-        //change the color of the point
-
-    }
-
+    
     const skills = profile.stats;
     const wounds = profile.wounds;
     const skillKeys = ["Статура", "Спритність", "Кмітливість", "Емпатія"];
@@ -52,7 +47,12 @@ export function BaseStats() {
     }
 
     function handleClick(key, value) {
-        updateStat(key, value);
+        const currentValue = skills[key];
+        let newValue = value;
+        if(currentValue === value) {
+            newValue = value - 1;
+        }
+        updateStat(key, newValue);
     }
 
     return (
@@ -66,7 +66,12 @@ export function BaseStats() {
 }
 
 export function Skills() {
-    const skills = ["Вплив (емпатія)", "Витривалість (статура)", "Бій (статура)", "Знання Зони (кмітливість)", "Лікування (емпатія)", "Спостережливість (кмітливість)", "Розуміння (кмітливість)", "Проворність (емпатія)", "Проникливість (емпаптія)", "Сила (статура)", "Скритність (спритність)", "Стрільба (спритність)"]
+    const [profile, {updateSkill}] = useContext(ProfileContext);
+
+    const skillsValue = profile.skills;
+    const skillsKey = ["Вплив (емпатія)", "Витривалість (статура)", "Бій (статура)", "Знання Зони (кмітливість)", "Лікування (емпатія)", "Спостережливість (кмітливість)", "Розуміння (кмітливість)", "Проворність (емпатія)", "Проникливість (емпаптія)", "Сила (статура)", "Скритність (спритність)", "Стрільба (спритність)"]
+
+    const lenght = Object.keys(skillsValue).length;
 
     return (
         <div>
@@ -74,16 +79,23 @@ export function Skills() {
                 <h2>Навички</h2>
             </div>
             <div className="stats">
-                {skills.map((skill) => {
-                    let skill_input = <input type="number" className="w-full"></input>
-                    return <div className="stat" key={skill}>
-                        <div className="shrink-0 w-[270px] p-1">
-                            {skill}
-                        </div>
-                        <div>
-                            {skill_input}
-                        </div>
-                    </div>
+                {skillsKey.map((skillName) => {
+                    for (let i = 0; i < lenght; i++) {
+                        //for every skillName add a default skillValue in input
+                        //if skillName is in skillsValue return skillValue
+                        //else return 0
+                        if (skillName in skillsValue) {
+                            let skill_input = <input type="number" className="w-full" min="0" defaultValue={skillsValue[skillName]} onChange={(e) => updateSkill(skillName, e.target.value)}></input>
+                            return <div className="stat" key={skillName}>
+                                <div className="shrink-0 w-[270px] p-1">
+                                    {skillName}
+                                </div>
+                                <div>
+                                    {skill_input}
+                                </div>
+                            </div>
+                        }
+                    }
                 }
                 )}
             </div>
@@ -92,22 +104,38 @@ export function Skills() {
 }
 
 export function Expierence() {
+    const [profile, {updateExpierence, handleClick}] = useContext(ProfileContext);
+
+    const expierence = profile.expierence;
+
+    // function handleClick(value) {
+    //     const currentValue = expierence;
+    //     let newValue = value;
+    //     if(currentValue === value) {
+    //         newValue = value - 1;
+    //     }
+    //     updateExpierence(newValue);
+    // }
+
     let points = [];
-    for (let i = 0; i < 10; i++) {
-        points.push(<button className="point">{i}</button>)
+    // TODO: 20 points total but two rows with 0-10 range
+    for (let i = 1; i < 21; i++) {
+        points.push(
+        <button key={i}
+        onClick={() => handleClick(expierence, i, updateExpierence)}
+        className={(i <= expierence ? " point-active" : " point-inactive")}
+        ></button>)
+        if (i === 10) {
+            points.push(<br key={i + 1}></br>)
+        }
     }
     return (
         <div>
             <div className="table-title">
                 <h2>Досвід</h2>
             </div>
-            <div className="stats">
-                <div className="exp-points">
-                    {points}
-                </div>
-                <div className="exp-points">
-                    {points}
-                </div>
+            <div className="exp-points">
+                {points} 
             </div>
         </div>
     )

@@ -4,6 +4,7 @@ import { BaseStats, Skills, Expierence, Stats } from "@components/profile/FIrstR
 import { Wounds, Recources, MutationPoints, RotPoints, Inventory, Textboxes } from "@components/profile/SecondRow"
 import { useState, useContext } from "react"
 import { ProfileContext } from "@app/profile-gallery/profile/page"
+import Dropdown from 'react-dropdown'
 
 
 export function Profile() {
@@ -11,7 +12,8 @@ export function Profile() {
         <div className="profile">
             <div className="header">
                 <div className="title text-xl flex justify-center">
-                    <h1>Name: role</h1>
+                    <h1>Name: </h1>
+                    <Role></Role>
                 </div>
             </div>
             <div className="content grid grid-cols-3">
@@ -33,6 +35,23 @@ export function Profile() {
                     <Notes></Notes>
                 </div>
             </div>
+        </div>
+    )
+}
+
+export function Role(){
+    const [profile] = useContext(ProfileContext)
+    const role = profile.role;
+
+    return (
+        <div className="role">
+            <Dropdown
+            options={role}
+            value={role[0]}
+            placeholder="Select an option"
+            >
+            </Dropdown>
+
         </div>
     )
 }
@@ -66,13 +85,16 @@ export function Talents() {
 }
 
 export function Notes() {
+    const [profile, { updateNotes }] = useContext(ProfileContext)
     return (
         <div className="notes h-96">
             <div className="table-title">
                 <h2>Нотатки</h2>
             </div>
             <div className="text h-full">
-                <textarea className="border w-full h-full"></textarea>
+                <textarea className="border w-full h-full"
+                onChange={(e) => updateNotes(e.target.value)}
+                ></textarea>
             </div>
         </div>
     )

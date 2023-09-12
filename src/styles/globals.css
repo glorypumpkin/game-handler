@@ -15,6 +15,10 @@
         @apply flex items-center divide-x;}
 
     .exp-points {
+        @apply border;
+    }
+
+    .points {
         @apply flex items-center justify-between;
     }
 
@@ -23,6 +27,10 @@
     }
 
     .point-active {
-        @apply bg-red-500 rounded-full;
+        @apply bg-red-500 rounded-full w-6 h-6;
+    }
+
+    .point-inactive {
+        @apply bg-gray-300 rounded-full w-6 h-6;
     }
 }

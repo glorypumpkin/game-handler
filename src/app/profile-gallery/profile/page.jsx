@@ -8,7 +8,8 @@ export const ProfileContext = createContext();
 export default function Page() {
 
     const [profile, setProfile] = useState({
-        name: "Hello",
+        name: "Your name",
+        role: ["1", "2", "3"],
         items: ["", ""],
         talents: ["", "", "", ""],
         stats: {
@@ -22,7 +23,30 @@ export default function Page() {
             "Спритність": 0,
             "Кмітливість": 1,
             "Емпатія": 0
-        }
+        },
+        skills: {
+            "Вплив (емпатія)": 0,
+            "Витривалість (статура)": 0,
+            "Бій (статура)": 0,
+            "Знання Зони (кмітливість)": 0,
+            "Лікування (емпатія)": 0,
+            "Спостережливість (кмітливість)": 0,
+            "Розуміння (кмітливість)": 0,
+            "Проворність (емпатія)": 0,
+            "Проникливість (емпаптія)": 0,
+            "Сила (статура)": 0,
+            "Скритність (спритність)": 0,
+            "Стрільба (спритність)": 0
+        },
+        recources: {
+            "Їжа": 0,
+            "Вода": 0,
+            "Патрони": 0
+        },
+        expierence: 3,
+        mutations: 2,
+        rot:4,
+        notes: ""
     })
 
     const functions = {
@@ -35,7 +59,7 @@ export default function Page() {
         setName() {
             setProfile({
                 ...profile,
-                name: "Hello World"
+                name: "Name"
             })
         },
         addItem() {
@@ -92,6 +116,54 @@ export default function Page() {
             setProfile({
                 ...profile,
                 wounds: newWounds
+            })
+        },
+        updateSkill(key, value) {
+            let newSkills = { ...profile.skills };
+            newSkills[key] = value;
+            setProfile({
+                ...profile,
+                skills: newSkills
+            })
+        },
+        updateRecource(key, value) {
+            let newRecources = { ...profile.recources };
+            newRecources[key] = value;
+            setProfile({
+                ...profile,
+                recources: newRecources
+            })
+        },
+        updateExpierence(value) {
+            setProfile({
+                ...profile,
+                expierence: value
+            })
+        },
+        updateMutations(value) {
+            setProfile({
+                ...profile,
+                mutations: value
+            })
+        },
+        updateRot(value) {
+            setProfile({
+                ...profile,
+                rot: value
+            })
+        },
+        handleClick(point_type, value, updateFunction) {
+            const currentValue = point_type;
+            let newValue = value;
+            if(currentValue === value) {
+                newValue = value - 1;
+            }
+            updateFunction(newValue);
+        },
+        updateNotes(value) {
+            setProfile({
+                ...profile,
+                notes: value
             })
         }
     }
