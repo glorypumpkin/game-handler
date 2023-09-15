@@ -1,3 +1,4 @@
+import 'react-dropdown/style.css'
 import '../styles/globals.css'
 import { Inter } from 'next/font/google'
 

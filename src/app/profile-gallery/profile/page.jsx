@@ -4,18 +4,19 @@ import { createContext, useContext, useState } from "react";
 
 export const ProfileContext = createContext();
 
+export const roles = ["1", "2", "Сталкер"]
 
 export default function Page() {
 
     const [profile, setProfile] = useState({
         name: "Your name",
-        role: ["1", "2", "3"],
+        role: "Сталкер",
         items: ["", ""],
         talents: ["", "", "", ""],
         stats: {
             "Статура": 1,
             "Спритність": 1,
-            "Кмітливість": 3,
+            "Кмітливість": 2,
             "Емпатія": 1
         },
         wounds: {

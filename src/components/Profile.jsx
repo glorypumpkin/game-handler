@@ -3,7 +3,7 @@ import Image from "next/image"
 import { BaseStats, Skills, Expierence, Stats } from "@components/profile/FIrstRow"
 import { Wounds, Recources, MutationPoints, RotPoints, Inventory, Textboxes } from "@components/profile/SecondRow"
 import { useState, useContext } from "react"
-import { ProfileContext } from "@app/profile-gallery/profile/page"
+import { ProfileContext, roles } from "@app/profile-gallery/profile/page"
 import Dropdown from 'react-dropdown'
 
 
@@ -12,7 +12,7 @@ export function Profile() {
         <div className="profile">
             <div className="header">
                 <div className="title text-xl flex justify-center">
-                    <h1>Name: </h1>
+                   <Name></Name>
                     <Role></Role>
                 </div>
             </div>
@@ -39,19 +39,39 @@ export function Profile() {
     )
 }
 
+export function Name() {
+    const [profile, { setProperty }] = useContext(ProfileContext)
+    const name = profile.name;
+
+    function onChange(e) {
+        setProperty("name", e.target.value)
+    }
+
+    return (
+        <div className="name">
+            <input type="text" value={name} onChange={onChange}></input>
+        </div>
+    )
+}
+
 export function Role(){
-    const [profile] = useContext(ProfileContext)
+    const [profile, { setProperty}] = useContext(ProfileContext)
     const role = profile.role;
+
+    function onSelect(option) {
+        setProperty("role", option.value)
+    }
 
     return (
         <div className="role">
             <Dropdown
-            options={role}
-            value={role[0]}
-            placeholder="Select an option"
+            options={roles}
+            value={role}
+            placeholder="Твоя роль"
+            onChange={onSelect}
+            controlClassName="bg-red-500"
             >
             </Dropdown>
-
         </div>
     )
 }

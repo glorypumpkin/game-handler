@@ -17,7 +17,7 @@ export function Stats( { skills, handleClick, highlights = [] }) {
                 points.push(
                 <button key={i} 
                 onClick={() => handleClick(statName, i)}
-                className={(i <= highlight ? " point-active" : " point-inactive")}>{i}</button>
+                className={(highlight ? " point-active" : " point-inactive")}>{i}</button>
                 )
             }
             return <div className="stat" key={statName}>
@@ -125,9 +125,6 @@ export function Expierence() {
         onClick={() => handleClick(expierence, i, updateExpierence)}
         className={(i <= expierence ? " point-active" : " point-inactive")}
         ></button>)
-        if (i === 10) {
-            points.push(<br key={i + 1}></br>)
-        }
     }
     return (
         <div>

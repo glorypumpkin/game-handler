@@ -15,7 +15,7 @@
         @apply flex items-center divide-x;}
 
     .exp-points {
-        @apply border;
+        @apply border grid grid-cols-10 justify-items-center gap-1 p-1;
     }
 
     .points {
@@ -33,4 +33,5 @@
     .point-inactive {
         @apply bg-gray-300 rounded-full w-6 h-6;
     }
+
 }
